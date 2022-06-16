@@ -13,6 +13,32 @@ private val ACTION_FUNCTIONS: Map<String, (Double, Double) -> Double> =
 class Calculator {
 
     fun calculate(expression: String): Double {
+        val actions: MutableList<Action> = findActions(expression)
+        if (actions.isEmpty()) {
+            return parseDouble(expression)
+        }
+
+        try {
+            while (actions.size > 1) {
+                val maxIndex: Int = findMaxPriorityActionIndex(actions)
+                val actionResult: Double = calculateActionResult(actions[maxIndex])
+
+                if (maxIndex != 0) {
+                    actions[maxIndex - 1].secondOperand = actionResult.toString()
+                }
+                if (maxIndex != actions.size - 1) {
+                    actions[maxIndex + 1].firstOperand = actionResult.toString()
+                }
+                actions.removeAt(maxIndex)
+            }
+
+            return roundDouble(calculateActionResult(actions[0]))
+        } catch (e: NumberFormatException) {
+            throw IllegalArgumentException("All operands must be number")
+        }
+    }
+
+    private fun findActions(expression: String): MutableList<Action> {
         val actions: MutableList<Action> = mutableListOf()
         var previousOperand = ""
         var currentOperator = ""
@@ -50,7 +76,7 @@ class Calculator {
 
         try {
             if (currentOperator.isEmpty()) {
-                return parseDouble(expression)
+                return mutableListOf()
             }
             actions.add(
                 Action(
@@ -58,24 +84,11 @@ class Calculator {
                     calculatePriority(currentOperator[0], getCloseBracketCount(currentOperand.toString()))
                 )
             )
-
-            while (actions.size > 1) {
-                val maxIndex: Int = findMaxPriorityActionIndex(actions)
-                val actionResult: Double = calculateActionResult(actions[maxIndex])
-
-                if (maxIndex != 0) {
-                    actions[maxIndex - 1].secondOperand = actionResult.toString()
-                }
-                if (maxIndex != actions.size - 1) {
-                    actions[maxIndex + 1].firstOperand = actionResult.toString()
-                }
-                actions.removeAt(maxIndex)
-            }
-
-            return roundDouble(calculateActionResult(actions[0]))
         } catch (e: NumberFormatException) {
             throw IllegalArgumentException("All operands must be number")
         }
+
+        return actions
     }
 
     private fun calculateActionResult(action: Action) =
