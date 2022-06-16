@@ -3,7 +3,7 @@ package ru.mondayish.byndyusoft
 class ConsoleManager {
 
     fun runCalculator() {
-        println("Введите выражение: ")
+        println("Введите выражение:")
         val expression: String = readln()
         writePrettyResult(Calculator().calculate(expression))
     }
@@ -12,5 +12,5 @@ class ConsoleManager {
         println("Результат: " + makePretty(result))
     }
 
-    private fun makePretty(n: Double): String = if(n % 1.0 == 0.0) n.toInt().toString() else n.toString()
+    private fun makePretty(n: Double): String = if (n % 1.0 == 0.0) n.toInt().toString() else n.toString()
 }

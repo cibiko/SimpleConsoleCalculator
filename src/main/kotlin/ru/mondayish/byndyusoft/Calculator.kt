@@ -32,7 +32,11 @@ class Calculator {
                 actions.removeAt(maxIndex)
             }
 
-            return roundDouble(calculateActionResult(actions[0]))
+            val result: Double = roundDouble(calculateActionResult(actions[0]))
+            if (result.isNaN() || result.isInfinite()) {
+                throw IllegalArgumentException("Illegal operation in expression, division on 0, for example")
+            }
+            return result
         } catch (e: NumberFormatException) {
             throw IllegalArgumentException("All operands must be number")
         }
@@ -105,12 +109,14 @@ class Calculator {
 
     private fun getOpenBracketCount(operand: String): Int = operand.split("").count { s -> s == "(" }
 
-    private fun findMaxPriorityActionIndex(actions: MutableList<Action>): Int =
-        sequence {
+    private fun findMaxPriorityActionIndex(actions: MutableList<Action>): Int {
+        val sortedIndexes: List<Int> = sequence {
             for (i in 0 until actions.size) {
                 yield(i)
             }
-        }.sortedWith { a, b -> actions[a].priority - actions[b].priority }.last()
+        }.sortedWith { a, b -> actions[a].priority - actions[b].priority }.toList()
+        return sortedIndexes.first { i -> actions[i].priority == actions[sortedIndexes.last()].priority }
+    }
 
     private fun parseDouble(operand: String): Double = operand.replace(",", ".").toDouble()
 
