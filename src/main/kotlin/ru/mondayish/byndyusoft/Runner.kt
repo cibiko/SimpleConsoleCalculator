@@ -1,5 +1,5 @@
 package ru.mondayish.byndyusoft
 
 fun main(args: Array<String>) {
-    println(Calculator().calculate("1+2-3"))
+    println(Calculator().calculate("((2+3)*2)-10"))
 }
