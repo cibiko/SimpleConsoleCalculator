@@ -76,4 +76,20 @@ class CalculatorTest {
         assertFailsWith<IllegalArgumentException> { Calculator().calculate("2*3/0") }
         assertFailsWith<IllegalArgumentException> { Calculator().calculate("2*3*(9/2-(3+4)))") }
     }
+
+    @Test
+    fun unaryMinusAtStartTests() {
+        assertEquals(-1.0, Calculator().calculate("-3+2"))
+        assertEquals(-12.0, Calculator().calculate("-3*4"))
+        assertEquals(-2.0, Calculator().calculate("-12/6"))
+    }
+
+    @Test
+    fun unaryMinusTests() {
+        assertEquals(1.0, Calculator().calculate("2+(-3)+2"))
+        assertEquals(-4.0, Calculator().calculate("2*(-3)+2"))
+        assertEquals(1.0, Calculator().calculate("2/(-2)+2"))
+        assertEquals(6.0, Calculator().calculate("2-(-2)+2"))
+        assertEquals(-2.0, Calculator().calculate("2+(-3*2)+2"))
+    }
 }

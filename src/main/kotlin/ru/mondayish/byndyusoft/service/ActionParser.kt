@@ -15,7 +15,8 @@ class ActionParser {
         var nestingCount = 0
 
         for (i in expression.indices) {
-            if (ALL_ACTIONS.contains(expression[i].toString())) {
+            if (ALL_ACTIONS.contains(expression[i].toString()) && !(i == 0 && expression[i] == '-') &&
+                !(expression[i] == '-' && i != 0 && expression[i - 1] == '(')) {
                 if (previousOperand.isNotEmpty()) {
                     actions.add(
                         Action(
