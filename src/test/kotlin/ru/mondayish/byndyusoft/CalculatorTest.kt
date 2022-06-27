@@ -1,6 +1,7 @@
 package ru.mondayish.byndyusoft
 
 import org.junit.Test
+import ru.mondayish.byndyusoft.service.Calculator
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 

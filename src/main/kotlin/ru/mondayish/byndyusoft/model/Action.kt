@@ -1,4 +1,4 @@
-package ru.mondayish.byndyusoft
+package ru.mondayish.byndyusoft.model
 
 data class Action(
     var firstOperand: String,

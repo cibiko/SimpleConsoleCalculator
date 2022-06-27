@@ -1,4 +1,4 @@
-package ru.mondayish.byndyusoft
+package ru.mondayish.byndyusoft.service
 
 class ConsoleManager {
 
