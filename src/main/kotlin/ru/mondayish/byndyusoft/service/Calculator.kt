@@ -3,10 +3,7 @@ package ru.mondayish.byndyusoft.service
 import ru.mondayish.byndyusoft.utils.CalculatorDoubleUtils
 import ru.mondayish.byndyusoft.utils.PriorityUtils
 import ru.mondayish.byndyusoft.model.Action
-
-private val ACTION_FUNCTIONS: Map<String, (Double, Double) -> Double> =
-    mapOf(Pair("+") { a: Double, b: Double -> a + b }, Pair("-") { a: Double, b: Double -> a - b },
-        Pair("*") { a: Double, b: Double -> a * b }, Pair("/") { a: Double, b: Double -> a / b })
+import ru.mondayish.byndyusoft.utils.OperationUtils
 
 class Calculator {
 
@@ -41,7 +38,7 @@ class Calculator {
     }
 
     private fun calculateActionResult(action: Action) =
-        ACTION_FUNCTIONS[action.operation]!!
+        OperationUtils.ACTION_FUNCTIONS[action.operation]!!
             .invoke(
                 CalculatorDoubleUtils.parseDouble(action.firstOperand.replace("(", "").replace(")", "")),
                 CalculatorDoubleUtils.parseDouble(action.secondOperand.replace("(", "").replace(")", ""))

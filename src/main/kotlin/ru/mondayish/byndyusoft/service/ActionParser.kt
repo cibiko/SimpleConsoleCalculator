@@ -2,8 +2,7 @@ package ru.mondayish.byndyusoft.service
 
 import ru.mondayish.byndyusoft.utils.PriorityUtils
 import ru.mondayish.byndyusoft.model.Action
-
-private const val ALL_ACTIONS: String = "+-*/"
+import ru.mondayish.byndyusoft.utils.OperationUtils
 
 class ActionParser {
 
@@ -15,7 +14,7 @@ class ActionParser {
         var nestingCount = 0
 
         for (i in expression.indices) {
-            if (ALL_ACTIONS.contains(expression[i].toString()) && !(i == 0 && expression[i] == '-') &&
+            if (OperationUtils.ALL_ACTIONS.contains(expression[i].toString()) && !(i == 0 && expression[i] == '-') &&
                 !(expression[i] == '-' && i != 0 && expression[i - 1] == '(')) {
                 if (previousOperand.isNotEmpty()) {
                     actions.add(
